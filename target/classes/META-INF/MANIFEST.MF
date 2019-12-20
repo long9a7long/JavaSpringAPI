@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: truon
+Build-Jdk: 13
+Implementation-Title: spring-security-jwt
+Implementation-Version: 0.1.0
+Implementation-Vendor-Id: org.springframework
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/spring-security-jwt
+Created-By: Maven Integration for Eclipse
+
