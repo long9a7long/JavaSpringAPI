@@ -24,7 +24,7 @@ import com.example.demoSpBoot.service.PhieuchiService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class PhieuchiController {
 	@Autowired
 	PhieuchiService phieuchiService;

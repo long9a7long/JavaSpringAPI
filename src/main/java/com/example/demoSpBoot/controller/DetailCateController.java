@@ -23,7 +23,7 @@ import com.example.demoSpBoot.service.DetailCateService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class DetailCateController {
 	@Autowired
 	DetailCateService detailCateService;

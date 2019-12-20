@@ -52,7 +52,7 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class ProductController {
 	
 	@Autowired

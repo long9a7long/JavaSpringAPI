@@ -27,7 +27,7 @@ import com.example.demoSpBoot.service.CateService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class CateController {
 	@Autowired
 	CateService cateService;

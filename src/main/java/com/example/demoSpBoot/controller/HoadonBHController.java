@@ -31,7 +31,7 @@ import com.example.demoSpBoot.service.ProductService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class HoadonBHController {
 	@Autowired
 	HoadonBHService hoadonService;

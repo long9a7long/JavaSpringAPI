@@ -28,7 +28,7 @@ import com.example.demoSpBoot.service.CustomerService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/ShopStore")
 public class CustomerController {
 	@Autowired

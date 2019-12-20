@@ -22,7 +22,7 @@ import com.example.demoSpBoot.service.DetailNHService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class DetailNHController {
 	@Autowired
 	DetailNHService detailNHService;

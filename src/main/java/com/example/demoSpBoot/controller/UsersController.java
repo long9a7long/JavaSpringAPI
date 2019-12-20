@@ -43,7 +43,7 @@ import com.example.demoSpBoot.model.users;
 
 @RestController
 //http://localhost:4200
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/ShopStore")
 public class UsersController {
 	@Autowired
