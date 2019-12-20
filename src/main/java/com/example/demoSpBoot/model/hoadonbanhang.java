@@ -30,6 +30,27 @@ public class hoadonbanhang {
 	private int id;
 	private String mahoadon;
 	private int loaithanhtoan;
+	public hoadonbanhang(int id, String mahoadon, int loaithanhtoan, long tonggia, long giamgia, long khachhangtra,
+			int trangthai, String ghichu, Date createdAt, Date updatedAt, users nguoisua, users nguoitao,
+			com.example.demoSpBoot.model.khachhang khachhang, List<phieuthu> phieuthus,
+			List<chitiethoadonbh> chitiethoadons) {
+		super();
+		this.id = id;
+		this.mahoadon = mahoadon;
+		this.loaithanhtoan = loaithanhtoan;
+		this.tonggia = tonggia;
+		this.giamgia = giamgia;
+		this.khachhangtra = khachhangtra;
+		this.trangthai = trangthai;
+		this.ghichu = ghichu;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.nguoisua = nguoisua;
+		this.nguoitao = nguoitao;
+		this.khachhang = khachhang;
+		this.phieuthus = phieuthus;
+		this.chitiethoadons = chitiethoadons;
+	}
 	private long tonggia;
 	private long giamgia;
 	private long khachhangtra;
@@ -156,22 +177,22 @@ public class hoadonbanhang {
 	}
 	
 
-	public hoadonbanhang(int id, String mahoadon,  int loaithanhtoan, long tonggia, long giamgia,
-			long khachhangtra, int trangthai, Date createdAt, Date updatedAt, users nguoisua,  users nguoitao, String ghichu, List<chitiethoadonbh> chitiethoadons) {
-		this.id = id;
-		this.ghichu = ghichu;
-		this.mahoadon = mahoadon;
-		this.loaithanhtoan = loaithanhtoan;
-		this.tonggia = tonggia;
-		this.giamgia = giamgia;
-		this.khachhangtra = khachhangtra;
-		this.trangthai = trangthai;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.nguoisua = nguoisua;
-		this.nguoitao = nguoitao;
-		this.chitiethoadons = chitiethoadons;
-	}
+//	public hoadonbanhang(int id, String mahoadon,  int loaithanhtoan, long tonggia, long giamgia,
+//			long khachhangtra, int trangthai, Date createdAt, Date updatedAt, users nguoisua,  users nguoitao, String ghichu, List<chitiethoadonbh> chitiethoadons) {
+//		this.id = id;
+//		this.ghichu = ghichu;
+//		this.mahoadon = mahoadon;
+//		this.loaithanhtoan = loaithanhtoan;
+//		this.tonggia = tonggia;
+//		this.giamgia = giamgia;
+//		this.khachhangtra = khachhangtra;
+//		this.trangthai = trangthai;
+//		this.createdAt = createdAt;
+//		this.updatedAt = updatedAt;
+//		this.nguoisua = nguoisua;
+//		this.nguoitao = nguoitao;
+//		this.chitiethoadons = chitiethoadons;
+//	}
 	public hoadonbanhang() {
 
 	}
