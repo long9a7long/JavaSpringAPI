@@ -157,7 +157,7 @@ public class hoadonbanhang {
 	
 
 	public hoadonbanhang(int id, String mahoadon,  int loaithanhtoan, long tonggia, long giamgia,
-			long khachhangtra, int trangthai, Date createdAt, Date updatedAt, users nguoisua,  users nguoitao, String ghichu) {
+			long khachhangtra, int trangthai, Date createdAt, Date updatedAt, users nguoisua,  users nguoitao, String ghichu, List<chitiethoadonbh> chitiethoadons) {
 		this.id = id;
 		this.ghichu = ghichu;
 		this.mahoadon = mahoadon;
@@ -170,6 +170,7 @@ public class hoadonbanhang {
 		this.updatedAt = updatedAt;
 		this.nguoisua = nguoisua;
 		this.nguoitao = nguoitao;
+		this.chitiethoadons = chitiethoadons;
 	}
 	public hoadonbanhang() {
 
