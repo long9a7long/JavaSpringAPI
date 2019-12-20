@@ -58,6 +58,13 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
+	@GetMapping("/hello")
+	/* ---------------- GET ALL PRODUCT ------------------------ */
+	public ResponseEntity<String> hello() {
+		
+		return new ResponseEntity<String>("Hi", HttpStatus.OK);
+	}
+	
 	@GetMapping("/allproducts")
 	/* ---------------- GET ALL PRODUCT ------------------------ */
 	public ResponseEntity<List<sanpham>> findAllProduct() {

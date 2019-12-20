@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         	.csrf().disable() // Ngăn chặn request từ một domain khác
         	.authorizeRequests()
-                    .antMatchers("/ShopStore/logout","/ShopStore/login","/ShopStore/images").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
+                    .antMatchers("/ShopStore/logout","/ShopStore/login","/ShopStore/images", "/ShopStore/hello").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
                     .anyRequest().authenticated();
 
         // Thêm một lớp Filter kiểm tra jwt
