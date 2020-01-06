@@ -1,29 +1,20 @@
 package com.example.demoSpBoot.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Array;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,33 +33,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demoSpBoot.dto.UploadResponse;
-import com.example.demoSpBoot.model.hoadonbanhang;
 import com.example.demoSpBoot.model.sanpham;
 import com.example.demoSpBoot.service.ProductService;
 
-import lombok.var;
-
-import java.util.logging.Logger;
-
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 	
 	@Autowired
 	ProductService productService;
 	
-	@GetMapping("/hello")
-	/* ---------------- GET ALL PRODUCT ------------------------ */
-	public ResponseEntity<String> hello() {
-		
-		return new ResponseEntity<String>("Hi", HttpStatus.OK);
-	}
-	
 	@GetMapping("/allproducts")
 	/* ---------------- GET ALL PRODUCT ------------------------ */
-	public ResponseEntity<List<sanpham>> findAllProduct() {
-		//return new ResponseEntity<ServiceResult>(customerService.findAll(), HttpStatus.OK);
+	public ResponseEntity<List<sanpham>> getAllProduct() {
 		
 		List<sanpham> listProduct= productService.findAllProd();
 		if(listProduct.isEmpty()) {
@@ -79,7 +57,7 @@ public class ProductController {
 	
 	@GetMapping("/product")
 	/* ---------------- GET ALL PRODUCT ------------------------ */
-	public ResponseEntity<Page<sanpham>> findAllProduct(@RequestParam int pageNumber, @RequestParam int pageSize) {
+	public ResponseEntity<Page<sanpham>> getAllProductPage(@RequestParam int pageNumber, @RequestParam int pageSize) {
 		//return new ResponseEntity<ServiceResult>(customerService.findAll(), HttpStatus.OK);
 		
 		Page<sanpham> listProduct= productService.findAll(pageNumber,pageSize);
@@ -101,10 +79,23 @@ public class ProductController {
         }
         return new ResponseEntity<>(product.get(), HttpStatus.OK);
     }
+	/* ---------------- GET PRODUCT BY MASP ------------------------ */
+	@GetMapping("/productbymasp/{masp}")
+	
+	public ResponseEntity<sanpham> getProductByMasp(
+            @PathVariable("masp") String masp) {
+        Optional<sanpham> product = productService.findByMasp(masp);
+
+        if (!product.isPresent()) {
+            return new ResponseEntity<>(product.get(),
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(product.get(), HttpStatus.OK);
+    }
 
 	/* ---------------- CREATE NEW PRODUCT ------------------------ */
 	@PostMapping("/product")
-	public ResponseEntity<sanpham> saveProduct(@Valid @RequestBody sanpham product) {
+	public ResponseEntity<sanpham> createProduct(@Valid @RequestBody sanpham product) {
 		if(productService.create(product)) {
 			product.getId();
 			return new ResponseEntity<sanpham>(product,HttpStatus.OK);
@@ -133,21 +124,33 @@ public class ProductController {
 			return new ResponseEntity<sanpham>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
 	@GetMapping("/product/search")
 	/* ---------------- SEARCH ------------------------ */
 	public ResponseEntity<Page<sanpham>> findProduct(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String searchTerm) throws ParseException {
-		Page<sanpham> listBill = null;
-			listBill= productService.searchProduct(pageNumber,pageSize,searchTerm);
+		Page<sanpham> listProduct = null;
+			listProduct= productService.searchProduct(pageNumber,pageSize,searchTerm);
 		
-			if(listBill.isEmpty()) {
+			if(listProduct.isEmpty()) {
 				return new ResponseEntity<Page<sanpham>>(HttpStatus.NO_CONTENT);
 			}
-			return new ResponseEntity<Page<sanpham>>(listBill, HttpStatus.OK);
+			return new ResponseEntity<Page<sanpham>>(listProduct, HttpStatus.OK);
+	}
+	
+	@GetMapping("/product/filter")
+	/* ---------------- Filter ------------------------ */
+	public ResponseEntity<Page<sanpham>> filterProduct(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam int trangthai,@RequestParam int nhasx) throws ParseException {
+		Page<sanpham> listPro = null;
+		listPro= productService.filterProduct(pageNumber,pageSize,trangthai, nhasx);
+		if(listPro.isEmpty()) {
+			return new ResponseEntity<Page<sanpham>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Page<sanpham>>(listPro, HttpStatus.OK);
 	}
 	
 	//upload anhsp
 	@PostMapping("/upload")
-	public ResponseEntity<UploadResponse> uploadData(@RequestParam("file") MultipartFile file) throws Exception {
+	public ResponseEntity<UploadResponse> uploadProImage(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file == null) {
 			throw new RuntimeException("You must select the a file for uploading");
 		}
@@ -177,7 +180,7 @@ public class ProductController {
 	
 	@RequestMapping(value = "/images", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage(@RequestParam("fileName") String fileName) throws IOException {
+    public ResponseEntity<byte[]> getProImage(@RequestParam("fileName") String fileName) throws IOException {
 
     	ClassPathResource imgFile = new ClassPathResource("uploads/" + fileName);
     	File file = imgFile.getFile();

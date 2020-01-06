@@ -29,7 +29,6 @@ public class hoadonbanhang {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String mahoadon;
-	private int loaithanhtoan;
 	public hoadonbanhang(int id, String mahoadon, int loaithanhtoan, long tonggia, long giamgia, long khachhangtra,
 			int trangthai, String ghichu, Date createdAt, Date updatedAt, users nguoisua, users nguoitao,
 			com.example.demoSpBoot.model.khachhang khachhang, List<phieuthu> phieuthus,
@@ -51,6 +50,7 @@ public class hoadonbanhang {
 		this.phieuthus = phieuthus;
 		this.chitiethoadons = chitiethoadons;
 	}
+	private int loaithanhtoan;
 	private long tonggia;
 	private long giamgia;
 	private long khachhangtra;
@@ -176,23 +176,6 @@ public class hoadonbanhang {
 		this.updatedAt = updatedAt;
 	}
 	
-
-//	public hoadonbanhang(int id, String mahoadon,  int loaithanhtoan, long tonggia, long giamgia,
-//			long khachhangtra, int trangthai, Date createdAt, Date updatedAt, users nguoisua,  users nguoitao, String ghichu, List<chitiethoadonbh> chitiethoadons) {
-//		this.id = id;
-//		this.ghichu = ghichu;
-//		this.mahoadon = mahoadon;
-//		this.loaithanhtoan = loaithanhtoan;
-//		this.tonggia = tonggia;
-//		this.giamgia = giamgia;
-//		this.khachhangtra = khachhangtra;
-//		this.trangthai = trangthai;
-//		this.createdAt = createdAt;
-//		this.updatedAt = updatedAt;
-//		this.nguoisua = nguoisua;
-//		this.nguoitao = nguoitao;
-//		this.chitiethoadons = chitiethoadons;
-//	}
 	public hoadonbanhang() {
 
 	}

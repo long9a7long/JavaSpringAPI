@@ -16,6 +16,7 @@ import com.example.demoSpBoot.repository.DetailCateRepository;
 public class DetailCateService {
 	@Autowired
 	DetailCateRepository detailCateRepo;
+	
 	public Page<chitietdanhmuc> findAll(int pageNumber,int pageSize){
 		Sort sortable = Sort.by("id").ascending();
 		Pageable phantrang = (Pageable) PageRequest.of(pageNumber, pageSize, sortable);
@@ -25,9 +26,16 @@ public class DetailCateService {
         return detailCateRepo.findById(id);
     }
 
-	public boolean create(chitietdanhmuc detailcate) {
-			detailCateRepo.save(detailcate);
+	public boolean create(chitietdanhmuc[] detailcate) {
+		if(detailcate !=null ) {
+			detailCateRepo.deleteDetailCateByCate(detailcate[0].getId_sanpham());
+			for (chitietdanhmuc chitietdanhmuc : detailcate) {
+				detailCateRepo.save(chitietdanhmuc);
+			}
 			return true;
+		}
+		return false;
+			
 	}
 
 	public boolean update(chitietdanhmuc detailcate) {

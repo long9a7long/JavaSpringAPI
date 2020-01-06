@@ -24,14 +24,13 @@ import com.example.demoSpBoot.service.PhieuchiService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PhieuchiController {
 	@Autowired
 	PhieuchiService phieuchiService;
 	@GetMapping("/phieuchi")
 	/* ---------------- GET ALL PHIEU CHI ------------------------ */
-	public ResponseEntity<Page<phieuchi>> findAllPhieuchi(@RequestParam int pageNumber, @RequestParam int pageSize) {
-		//return new ResponseEntity<ServiceResult>(customerService.findAll(), HttpStatus.OK);
+	public ResponseEntity<Page<phieuchi>> getAllPhieuchiPage(@RequestParam int pageNumber, @RequestParam int pageSize) {
 		
 		Page<phieuchi> listPC= phieuchiService.findAll(pageNumber,pageSize);
 		if(listPC.isEmpty()) {
@@ -55,7 +54,7 @@ public class PhieuchiController {
 
 	/* ---------------- CREATE NEW Phieu chi ------------------------ */
 	@PostMapping("/phieuchi")
-	public ResponseEntity<phieuchi> saveNCC(@Valid @RequestBody phieuchi phieuchi) {
+	public ResponseEntity<phieuchi> createPC(@Valid @RequestBody phieuchi phieuchi) {
 		if(phieuchiService.create(phieuchi)) return new ResponseEntity<phieuchi>(phieuchi,HttpStatus.OK);
 		else {
 			return new ResponseEntity<phieuchi>(phieuchi,HttpStatus.NOT_FOUND);
@@ -66,7 +65,7 @@ public class PhieuchiController {
 	/* ---------------- UPDATE Phieu chi ------------------------ */
 	@PutMapping("/phieuchi")
 
-	public ResponseEntity<phieuchi> updateNCC(@RequestBody phieuchi phieuchi) {
+	public ResponseEntity<phieuchi> updatePC(@RequestBody phieuchi phieuchi) {
 		if(phieuchiService.update(phieuchi)) return new ResponseEntity<phieuchi>(phieuchi,HttpStatus.OK);
 		else {
 			return new ResponseEntity<phieuchi>(phieuchi,HttpStatus.NOT_FOUND);
@@ -75,7 +74,7 @@ public class PhieuchiController {
 	/* ---------------- DELETE phieu chi ------------------------ */
 	
 	@DeleteMapping("/phieuchi/{id}")
-	public ResponseEntity<phieuchi> deleteNSX(@PathVariable("id") int id) {
+	public ResponseEntity<phieuchi> deletePC(@PathVariable("id") int id) {
 		if(phieuchiService.delete(id)) return new ResponseEntity<phieuchi>(HttpStatus.OK);
 		else {
 			return new ResponseEntity<phieuchi>(HttpStatus.NOT_FOUND);

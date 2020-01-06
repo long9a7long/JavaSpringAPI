@@ -28,6 +28,7 @@ public class CustomerService {
 	
 	
 	public java.util.List<khachhang> getListAll(){
+		customerrepository.count();
 		return  customerrepository.findAll();
 	}
 	@Autowired

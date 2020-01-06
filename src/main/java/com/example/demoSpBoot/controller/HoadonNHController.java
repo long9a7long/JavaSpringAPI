@@ -24,41 +24,40 @@ import com.example.demoSpBoot.service.HoadonNHService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class HoadonNHController {
 	@Autowired
 	HoadonNHService hoadonNHService;
 	@GetMapping("/billNHs")
 	/* ---------------- GET ALL BILL ------------------------ */
-	public ResponseEntity<Page<hoadonnhaphang>> findAllBills(@RequestParam int pageNumber, @RequestParam int pageSize) {
-		//return new ResponseEntity<ServiceResult>(customerService.findAll(), HttpStatus.OK);
+	public ResponseEntity<Page<hoadonnhaphang>> getAllBillNHPage(@RequestParam int pageNumber, @RequestParam int pageSize) {
 		
-		Page<hoadonnhaphang> listBill= hoadonNHService.findAll(pageNumber,pageSize);
-		if(listBill.isEmpty()) {
+		Page<hoadonnhaphang> listBillNH= hoadonNHService.findAll(pageNumber,pageSize);
+		if(listBillNH.isEmpty()) {
 			return new ResponseEntity<Page<hoadonnhaphang>>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<Page<hoadonnhaphang>>(listBill, HttpStatus.OK);
+		return new ResponseEntity<Page<hoadonnhaphang>>(listBillNH, HttpStatus.OK);
 	}
 	/* ---------------- GET BILL BY ID ------------------------ */
 	@GetMapping("/billNHs/{id}")
 	
-	public ResponseEntity<hoadonnhaphang> getBillById(
+	public ResponseEntity<hoadonnhaphang> getBillNHById(
             @PathVariable("id") int id) {
-        Optional<hoadonnhaphang> bill = hoadonNHService.findByID(id);
+        Optional<hoadonnhaphang> billNH = hoadonNHService.findByID(id);
 
-        if (!bill.isPresent()) {
-            return new ResponseEntity<>(bill.get(),
+        if (!billNH.isPresent()) {
+            return new ResponseEntity<>(billNH.get(),
                     HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(bill.get(), HttpStatus.OK);
+        return new ResponseEntity<>(billNH.get(), HttpStatus.OK);
     }
 
 	/* ---------------- CREATE NEW BILL ------------------------ */
 	@PostMapping("/billNHs")
-	public ResponseEntity<hoadonnhaphang> saveBill(@Valid @RequestBody hoadonnhaphang bill) {
-		if(hoadonNHService.create(bill)) return new ResponseEntity<hoadonnhaphang>(bill,HttpStatus.OK);
+	public ResponseEntity<hoadonnhaphang> createBillNH(@Valid @RequestBody hoadonnhaphang billNH) {
+		if(hoadonNHService.create(billNH)) return new ResponseEntity<hoadonnhaphang>(billNH,HttpStatus.OK);
 		else {
-			return new ResponseEntity<hoadonnhaphang>(bill,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<hoadonnhaphang>(billNH,HttpStatus.NOT_FOUND);
 		}
 		
 	}
@@ -66,16 +65,16 @@ public class HoadonNHController {
 	/* ---------------- UPDATE BILL ------------------------ */
 	@PutMapping("/billNHs")
 
-	public ResponseEntity<hoadonnhaphang> updateBill(@RequestBody hoadonnhaphang bill) {
-		if(hoadonNHService.update(bill)) return new ResponseEntity<hoadonnhaphang>(bill,HttpStatus.OK);
+	public ResponseEntity<hoadonnhaphang> updateBillNH(@RequestBody hoadonnhaphang billNH) {
+		if(hoadonNHService.update(billNH)) return new ResponseEntity<hoadonnhaphang>(billNH,HttpStatus.OK);
 		else {
-			return new ResponseEntity<hoadonnhaphang>(bill,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<hoadonnhaphang>(billNH,HttpStatus.NOT_FOUND);
 		}
 	}
 	/* ---------------- DELETE CATE ------------------------ */
 	
 	@DeleteMapping("/billNHs/{id}")
-	public ResponseEntity<hoadonnhaphang> deleteCate(@PathVariable("id") int id) {
+	public ResponseEntity<hoadonnhaphang> deleteBillNH(@PathVariable("id") int id) {
 		if(hoadonNHService.delete(id)) return new ResponseEntity<hoadonnhaphang>(HttpStatus.OK);
 		else {
 			return new ResponseEntity<hoadonnhaphang>(HttpStatus.NOT_FOUND);

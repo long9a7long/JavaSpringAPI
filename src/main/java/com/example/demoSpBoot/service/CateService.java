@@ -51,6 +51,7 @@ public class CateService {
 		if (cate == null) {
 			return false;
 		} else {
+			cateRepository.deleteDetailCate(id);
 			cateRepository.delete(cate);
 			return true;
 		}
@@ -58,6 +59,6 @@ public class CateService {
 	public Page<danhmucsp> searchCate( int pageNumber, int pageSize, String searchTerm){
 		Sort sortable = Sort.by("id").descending();
 		Pageable phantrang = (Pageable) PageRequest.of(pageNumber, pageSize, sortable);
-		return (Page<danhmucsp>) cateRepository.findBytendanhmucContaining(phantrang,searchTerm);
+		return (Page<danhmucsp>) cateRepository.findBytendanhmuc(phantrang,searchTerm);
 	}
 }

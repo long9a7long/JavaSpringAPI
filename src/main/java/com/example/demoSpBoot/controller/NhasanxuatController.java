@@ -1,5 +1,6 @@
 package com.example.demoSpBoot.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,18 +22,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demoSpBoot.model.nhasanxuat;
-import com.example.demoSpBoot.model.sanpham;
 import com.example.demoSpBoot.service.NhasanxuatService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class NhasanxuatController {
 	@Autowired
 	NhasanxuatService nsxService;
 	@GetMapping("/allNSX")
-	/* ---------------- GET ALL PRODUCT ------------------------ */
-	public ResponseEntity<List<nhasanxuat>> findAllNSX() {
+	/* ---------------- GET ALL NSX ------------------------ */
+	public ResponseEntity<List<nhasanxuat>> getAllNSX() {
 		
 		List<nhasanxuat> listNSX= nsxService.findAllNSX();
 		if(listNSX.isEmpty()) {
@@ -42,8 +42,8 @@ public class NhasanxuatController {
 	}
 	
 	@GetMapping("/NSXs")
-	/* ---------------- GET ALL NSX ------------------------ */
-	public ResponseEntity<Page<nhasanxuat>> findAllNSXs(@RequestParam int pageNumber, @RequestParam int pageSize) {
+	/* ---------------- GET ALL NSX PAGE ------------------------ */
+	public ResponseEntity<Page<nhasanxuat>> getAllNSXPage(@RequestParam int pageNumber, @RequestParam int pageSize) {
 		//return new ResponseEntity<ServiceResult>(customerService.findAll(), HttpStatus.OK);
 		
 		Page<nhasanxuat> listNSX= nsxService.findAll(pageNumber,pageSize);
@@ -68,7 +68,7 @@ public class NhasanxuatController {
 
 	/* ---------------- CREATE NEW NSX ------------------------ */
 	@PostMapping("/NSXs")
-	public ResponseEntity<nhasanxuat> saveNCC(@Valid @RequestBody nhasanxuat nsx) {
+	public ResponseEntity<nhasanxuat> createNSX(@Valid @RequestBody nhasanxuat nsx) {
 		if(nsxService.create(nsx)) return new ResponseEntity<nhasanxuat>(nsx,HttpStatus.OK);
 		else {
 			return new ResponseEntity<nhasanxuat>(nsx,HttpStatus.NOT_FOUND);
@@ -79,7 +79,7 @@ public class NhasanxuatController {
 	/* ---------------- UPDATE NSX ------------------------ */
 	@PutMapping("/NSXs")
 
-	public ResponseEntity<nhasanxuat> updateNCC(@RequestBody nhasanxuat nsx) {
+	public ResponseEntity<nhasanxuat> updateNSX(@RequestBody nhasanxuat nsx) {
 		if(nsxService.update(nsx)) return new ResponseEntity<nhasanxuat>(nsx,HttpStatus.OK);
 		else {
 			return new ResponseEntity<nhasanxuat>(nsx,HttpStatus.NOT_FOUND);
@@ -93,5 +93,16 @@ public class NhasanxuatController {
 		else {
 			return new ResponseEntity<nhasanxuat>(HttpStatus.NOT_FOUND);
 		}
+	}
+	@GetMapping("/ManuProd/search")
+	/* ---------------- SEARCH ------------------------ */
+	public ResponseEntity<Page<nhasanxuat>> findNSX(@RequestParam int pageNumber, @RequestParam int pageSize, @RequestParam String searchTerm) throws ParseException {
+		Page<nhasanxuat> listManu = null;
+			listManu= nsxService.searchManu(pageNumber,pageSize,searchTerm);
+		
+			if(listManu.isEmpty()) {
+				return new ResponseEntity<Page<nhasanxuat>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<Page<nhasanxuat>>(listManu, HttpStatus.OK);
 	}
 }

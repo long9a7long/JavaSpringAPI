@@ -1,5 +1,6 @@
 package com.example.demoSpBoot.service;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.demoSpBoot.model.khachhang;
 import com.example.demoSpBoot.model.phieuthu;
 import com.example.demoSpBoot.repository.PhieuthuRepository;
 
@@ -26,13 +28,19 @@ public class PhieuthuService {
     }
 
 	public boolean create(phieuthu phieuthu) {
-		if(!phieuthuRepo.findBymaphieuthu(phieuthu.getMaphieuthu()).isPresent())
-		{
-		phieuthuRepo.save(phieuthu);
+		String maphieuthu="PT"+((new Date()).getTime()+"");
+		if(!phieuthuRepo.findBymaphieuthu(maphieuthu).isPresent()) {
+			phieuthu.setMaphieuthu(maphieuthu);
+			phieuthuRepo.save(phieuthu);
 			return true;
-		}else return false;
+		}
+		else {
+			return false;
+		}
+		
 	}
-
+	
+	
 	public boolean update(phieuthu phieuthu) {
 
 		if (!phieuthuRepo.findById(phieuthu.getId()).isPresent()) {

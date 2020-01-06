@@ -1,5 +1,6 @@
 package com.example.demoSpBoot.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,9 @@ public class NhasanxuatService {
     }
 
 	public boolean create(nhasanxuat nsx) {
+		nsx.setCreatedAt(new Date());
 		nhasxRepo.save(nsx);
-			return true;
+		return true;
 	}
 
 	public boolean update(nhasanxuat nsx) {
@@ -51,8 +53,14 @@ public class NhasanxuatService {
 		if (nsx == null) {
 			return false;
 		} else {
+			nhasxRepo.deleteProduct(id);
 			nhasxRepo.delete(nsx);
 			return true;
 		}
+	}
+	public Page<nhasanxuat> searchManu( int pageNumber, int pageSize, String searchTerm){
+		Sort sortable = Sort.by("id").descending();
+		Pageable phantrang = (Pageable) PageRequest.of(pageNumber, pageSize, sortable);
+		return (Page<nhasanxuat>) nhasxRepo.findByidContaining(phantrang,searchTerm);
 	}
 }

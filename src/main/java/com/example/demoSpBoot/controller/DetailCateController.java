@@ -23,14 +23,13 @@ import com.example.demoSpBoot.service.DetailCateService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DetailCateController {
 	@Autowired
 	DetailCateService detailCateService;
 	@GetMapping("/detailCate")
-	/* ---------------- GET ALL BILL ------------------------ */
-	public ResponseEntity<Page<chitietdanhmuc>> findAlls(@RequestParam int pageNumber, @RequestParam int pageSize) {
-		//return new ResponseEntity<ServiceResult>(customerService.findAll(), HttpStatus.OK);
+	/* ---------------- GET ALL DETAILCATE ------------------------ */
+	public ResponseEntity<Page<chitietdanhmuc>> getAllDetailCatePage(@RequestParam int pageNumber, @RequestParam int pageSize) {
 		
 		Page<chitietdanhmuc> listdetailCate= detailCateService.findAll(pageNumber,pageSize);
 		if(listdetailCate.isEmpty()) {
@@ -38,10 +37,10 @@ public class DetailCateController {
 		}
 		return new ResponseEntity<Page<chitietdanhmuc>>(listdetailCate, HttpStatus.OK);
 	}
-	/* ---------------- GET BILL BY ID ------------------------ */
+	/* ---------------- GET DETAILCATE BY ID ------------------------ */
 	@GetMapping("/detailCate/{id}")
 	
-	public ResponseEntity<chitietdanhmuc> getBillById(
+	public ResponseEntity<chitietdanhmuc> getDetailCateById(
             @PathVariable("id") int id) {
         Optional<chitietdanhmuc> detailCate = detailCateService.findByID(id);
 
@@ -52,29 +51,29 @@ public class DetailCateController {
         return new ResponseEntity<>(detailCate.get(), HttpStatus.OK);
     }
 
-	/* ---------------- CREATE NEW BILL ------------------------ */
+	/* ---------------- CREATE NEW DETAILCATE ------------------------ */
 	@PostMapping("/detailCate")
-	public ResponseEntity<chitietdanhmuc> saveBill(@Valid @RequestBody chitietdanhmuc detailCate) {
-		if(detailCateService.create(detailCate)) return new ResponseEntity<chitietdanhmuc>(detailCate,HttpStatus.OK);
+	public ResponseEntity<Boolean> createDetailCate(@Valid @RequestBody chitietdanhmuc[] detailCate) {
+		if(detailCateService.create(detailCate)) return new ResponseEntity<Boolean>(HttpStatus.OK);
 		else {
-			return new ResponseEntity<chitietdanhmuc>(detailCate,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}
 	
-	/* ---------------- UPDATE BILL ------------------------ */
+	/* ---------------- UPDATE DETAILCATE ------------------------ */
 	@PutMapping("/detailCate")
 
-	public ResponseEntity<chitietdanhmuc> updateBill(@RequestBody chitietdanhmuc detailCate) {
+	public ResponseEntity<chitietdanhmuc> updateDetailCate(@RequestBody chitietdanhmuc detailCate) {
 		if(detailCateService.update(detailCate)) return new ResponseEntity<chitietdanhmuc>(detailCate,HttpStatus.OK);
 		else {
 			return new ResponseEntity<chitietdanhmuc>(detailCate,HttpStatus.NOT_FOUND);
 		}
 	}
-	/* ---------------- DELETE CATE ------------------------ */
+	/* ---------------- DELETE DETAILCATE ------------------------ */
 	
 	@DeleteMapping("/detailCate/{id}")
-	public ResponseEntity<chitietdanhmuc> deleteCate(@PathVariable("id") int id) {
+	public ResponseEntity<chitietdanhmuc> deleteDetailCate(@PathVariable("id") int id) {
 		if(detailCateService.delete(id)) return new ResponseEntity<chitietdanhmuc>(HttpStatus.OK);
 		else {
 			return new ResponseEntity<chitietdanhmuc>(HttpStatus.NOT_FOUND);

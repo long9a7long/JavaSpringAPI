@@ -28,14 +28,14 @@ import com.example.demoSpBoot.service.CustomerService;
 
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/ShopStore")
 public class CustomerController {
 	@Autowired
 	CustomerService customerService;
 	/* ---------------- GET ALL CUSTOMER ------------------------ */
 	@GetMapping("/customers")
-	public ResponseEntity<Page<KhachHangDTO>> findAllCustomers(@RequestParam int pageNumber, @RequestParam int pageSize) {	
+	public ResponseEntity<Page<KhachHangDTO>> getAllCustomersPage(@RequestParam int pageNumber, @RequestParam int pageSize) {	
 		Page<KhachHangDTO> listCustomers = customerService.findListAll(pageNumber, pageSize);
 		if(listCustomers.isEmpty()) {
 			return new ResponseEntity<Page<KhachHangDTO>>(HttpStatus.NO_CONTENT);
@@ -56,11 +56,11 @@ public class CustomerController {
 	@GetMapping("/customers/search")
 	
 	public ResponseEntity<Page<KhachHangDTO>> findCustomersList(@RequestParam int pageNumber, @RequestParam int pageSize,@RequestParam String searchTerm) {
-        Page<KhachHangDTO> list = customerService.findByName(pageNumber, pageSize,searchTerm);
-        if (list.isEmpty()) {
+        Page<KhachHangDTO> listCustomers = customerService.findByName(pageNumber, pageSize,searchTerm);
+        if (listCustomers.isEmpty()) {
             return new ResponseEntity<Page<KhachHangDTO>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<Page<KhachHangDTO>>(list,HttpStatus.OK);
+        return new ResponseEntity<Page<KhachHangDTO>>(listCustomers,HttpStatus.OK);
     }
 	
 	
@@ -68,7 +68,7 @@ public class CustomerController {
 	
 	@GetMapping("/customers/{makhachhang}")
 	
-	public ResponseEntity<Optional<khachhang>> findCustomer(@PathVariable("makhachhang") String makhachhang) {
+	public ResponseEntity<Optional<khachhang>> findCustomerByMKH(@PathVariable("makhachhang") String makhachhang) {
         Optional<khachhang> kh = customerService.findBymakhachhang(makhachhang);
         if (!kh.isPresent()) {
             return new ResponseEntity<Optional<khachhang>>(HttpStatus.NO_CONTENT);
@@ -90,7 +90,7 @@ public class CustomerController {
         return new ResponseEntity<Page<hoadonbanhang>>(kh,HttpStatus.OK);
     }
 	
-/* ---------------- GET BILL CUSTOMER BY MAKHCHHANG ------------------------ */
+/* ---------------- GET BILL CUSTOMER BY MAKHCHHANG DEBT ------------------------ */
 	
 	@GetMapping("/customers/bill/debt/{makhachhang}")
 	
@@ -116,7 +116,7 @@ public class CustomerController {
 	
 	/* ---------------- CREATE NEW CUSTOMER ------------------------ */
 	@PostMapping("/customers")
-	public ResponseEntity<khachhang> saveCustomer(@Valid @RequestBody khachhang customer){
+	public ResponseEntity<khachhang> createCustomer(@Valid @RequestBody khachhang customer){
 		if(customerService.create(customer)) return new ResponseEntity<khachhang>(customer,HttpStatus.OK);
 		else {
 			return new ResponseEntity<khachhang>(HttpStatus.BAD_REQUEST);

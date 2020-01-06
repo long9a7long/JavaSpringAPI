@@ -24,13 +24,13 @@ import com.example.demoSpBoot.service.PhieuthuService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PhieuthuController {
 	@Autowired
 	PhieuthuService phieuthuService;
 	@GetMapping("/phieuthu")
 	/* ---------------- GET ALL PHIEU THU ------------------------ */
-	public ResponseEntity<Page<phieuthu>> findAllPhieuchi(@RequestParam int pageNumber, @RequestParam int pageSize) {
+	public ResponseEntity<Page<phieuthu>> getAllPhieuthuPage(@RequestParam int pageNumber, @RequestParam int pageSize) {
 		
 		Page<phieuthu> listPT= phieuthuService.findAll(pageNumber,pageSize);
 		if(listPT.isEmpty()) {
@@ -41,7 +41,7 @@ public class PhieuthuController {
 	/* ---------------- GET PHIEU THU BY ID ------------------------ */
 	@GetMapping("/phieuthu/{id}")
 	
-	public ResponseEntity<phieuthu> getPhieuchiById(
+	public ResponseEntity<phieuthu> getPhieuthuById(
             @PathVariable("id") int id) {
         Optional<phieuthu> phieuthu = phieuthuService.findByID(id);
 
@@ -53,8 +53,8 @@ public class PhieuthuController {
     }
 
 	/* ---------------- CREATE NEW phieu thu ------------------------ */
-	@PostMapping("/phieuthu")
-	public ResponseEntity<phieuthu> saveNCC(@Valid @RequestBody phieuthu phieuthu) {
+	@PostMapping("/receipts")
+	public ResponseEntity<phieuthu> createPhieuthu(@Valid @RequestBody phieuthu phieuthu) {
 		if(phieuthuService.create(phieuthu)) return new ResponseEntity<phieuthu>(phieuthu,HttpStatus.OK);
 		else {
 			return new ResponseEntity<phieuthu>(phieuthu,HttpStatus.NOT_FOUND);
@@ -65,7 +65,7 @@ public class PhieuthuController {
 	/* ---------------- UPDATE Phieu thu ------------------------ */
 	@PutMapping("/phieuthu")
 
-	public ResponseEntity<phieuthu> updateNCC(@RequestBody phieuthu phieuthu) {
+	public ResponseEntity<phieuthu> updatePhieuthu(@RequestBody phieuthu phieuthu) {
 		if(phieuthuService.update(phieuthu)) return new ResponseEntity<phieuthu>(phieuthu,HttpStatus.OK);
 		else {
 			return new ResponseEntity<phieuthu>(phieuthu,HttpStatus.NOT_FOUND);
@@ -74,7 +74,7 @@ public class PhieuthuController {
 	/* ---------------- DELETE phieu thu ------------------------ */
 	
 	@DeleteMapping("/phieuthu/{id}")
-	public ResponseEntity<phieuthu> deleteNSX(@PathVariable("id") int id) {
+	public ResponseEntity<phieuthu> deletePhieuthu(@PathVariable("id") int id) {
 		if(phieuthuService.delete(id)) return new ResponseEntity<phieuthu>(HttpStatus.OK);
 		else {
 			return new ResponseEntity<phieuthu>(HttpStatus.NOT_FOUND);
