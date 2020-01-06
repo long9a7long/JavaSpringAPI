@@ -37,7 +37,7 @@ import com.example.demoSpBoot.model.LoginForm;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/ShopStore")
 public class UsersController {
 	@Autowired

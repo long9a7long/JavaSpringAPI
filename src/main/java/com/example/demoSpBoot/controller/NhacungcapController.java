@@ -26,7 +26,7 @@ import com.example.demoSpBoot.service.NhacungcapService;
 
 @RestController
 @RequestMapping("/ShopStore")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class NhacungcapController {
 	@Autowired
 	NhacungcapService nhaccService;
