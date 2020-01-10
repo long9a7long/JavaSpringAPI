@@ -1,6 +1,7 @@
 package com.example.demoSpBoot.service;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,10 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.demoSpBoot.model.chitiethoadonbh;
 import com.example.demoSpBoot.model.hoadonbanhang;
 import com.example.demoSpBoot.model.nhasanxuat;
 import com.example.demoSpBoot.model.sanpham;
+import com.example.demoSpBoot.repository.DetailBHRepository;
+import com.example.demoSpBoot.repository.HoadonBHRepository;
 import com.example.demoSpBoot.repository.NhasanxuatRepository;
+import com.example.demoSpBoot.repository.PhieuthuRepository;
 import com.example.demoSpBoot.repository.ProductRepository;
 
 @Service
@@ -23,12 +28,18 @@ public class ProductService {
 	ProductRepository productRepo;
 	@Autowired
 	NhasanxuatRepository nhasxRepo;
+	@Autowired
+	DetailBHRepository chitiethdbhRepo;
+	@Autowired
+	HoadonBHRepository hoadonRepo;
+	@Autowired
+	PhieuthuRepository phieuthuRepo;
 	public List<sanpham> findAllProd(){
 		return (List<sanpham>) productRepo.findAll();
 	}
 	
 	public Page<sanpham> findAll(int pageNumber,int pageSize){
-		Sort sortable = Sort.by("id").ascending();
+		Sort sortable = Sort.by("id").descending();
 		Pageable phantrang = (Pageable) PageRequest.of(pageNumber, pageSize, sortable);
 		return (Page<sanpham>) productRepo.findAll( phantrang);
 	}
@@ -65,6 +76,13 @@ public class ProductService {
 			return false;
 		} else {
 			productRepo.deleteDetailCate(id);
+			List<chitiethoadonbh> listchitiet = chitiethdbhRepo.findBySanpham(product);
+			if(!listchitiet.isEmpty()) {
+				for(chitiethoadonbh item : listchitiet) {
+					productRepo.deletephieuthu(item.getId_hoadon());
+					hoadonRepo.delete(item.getId_hoadon());
+				}
+			}
 			productRepo.deleteDetailBillBH(id);
 			productRepo.deleteDetailBillNH(id);
 			productRepo.delete(product);
@@ -78,17 +96,17 @@ public class ProductService {
 	}
 	
 	public Page<sanpham> filterProduct( int pageNumber, int pageSize, int trangthai, int nhasx){
-		System.out.println(nhasx);
 		Optional<nhasanxuat> nhasanxuat= nhasxRepo.findById(nhasx);
-		
 		Sort sortable = Sort.by("id").descending();
 		Pageable phantrang = (Pageable) PageRequest.of(pageNumber, pageSize, sortable);
 		if(trangthai==0) {
 			return (Page<sanpham>) productRepo.findByNhasanxuatIs(phantrang, nhasanxuat.get());
 		}else if(nhasx==0) {
-			return (Page<sanpham>) productRepo.findByTrangthaiIs(phantrang, trangthai);
+			int tt = trangthai==1?1:0;
+			return (Page<sanpham>) productRepo.findByTrangthaiIs(phantrang, tt);
 		}else {
-			return (Page<sanpham>) productRepo.findByTrangthaiAndNhasanxuatIs(phantrang, trangthai, nhasanxuat.get());
+			int tt = trangthai==1?1:0;
+			return (Page<sanpham>) productRepo.findByTrangthaiAndNhasanxuatIs(phantrang, tt, nhasanxuat.get());
 		}
 	}
 }

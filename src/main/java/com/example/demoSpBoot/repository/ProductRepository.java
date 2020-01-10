@@ -1,5 +1,6 @@
 package com.example.demoSpBoot.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import com.example.demoSpBoot.model.sanpham;
 
 public interface ProductRepository extends JpaRepository<sanpham, Integer>{
 	Optional<sanpham> findBymasp(String masp);
+	List<sanpham> findByNhasanxuat(nhasanxuat nsx);
 	Page<sanpham> findAll(Pageable pageable);
 	
 	@Query( value = "SELECT b.* FROM sanpham b WHERE b.masp=:key OR b.tensp LIKE %:key%",
@@ -35,6 +37,10 @@ public interface ProductRepository extends JpaRepository<sanpham, Integer>{
 	@Transactional
 	@Query( value = "DELETE FROM chitiethoadonnh WHERE id_sanpham= :id", nativeQuery = true)
 	void deleteDetailBillNH( int id);
+	@Modifying
+	@Transactional
+	@Query( value = "DELETE FROM phieuthu WHERE idhoadon= :id", nativeQuery = true)
+	void deletephieuthu( int id);
 	
 	
 	Page<sanpham> findByTrangthaiAndNhasanxuatIs(Pageable pageable, int trangthai, nhasanxuat nhasx);

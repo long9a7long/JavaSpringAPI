@@ -14,11 +14,16 @@ import org.springframework.stereotype.Service;
 import com.example.demoSpBoot.model.nhasanxuat;
 import com.example.demoSpBoot.model.sanpham;
 import com.example.demoSpBoot.repository.NhasanxuatRepository;
+import com.example.demoSpBoot.repository.ProductRepository;
 
 @Service
 public class NhasanxuatService {
 	@Autowired
 	NhasanxuatRepository nhasxRepo;
+	@Autowired
+	ProductRepository prodRepo;
+	@Autowired
+	ProductService prodService;
 	public List<nhasanxuat> findAllNSX(){
 		return (List<nhasanxuat>) nhasxRepo.findAll();
 	}
@@ -53,7 +58,13 @@ public class NhasanxuatService {
 		if (nsx == null) {
 			return false;
 		} else {
-			nhasxRepo.deleteProduct(id);
+			List<sanpham> listprod = prodRepo.findByNhasanxuat(nsx);
+			if(!listprod.isEmpty()) {
+				for (sanpham item: listprod) {
+					prodService.delete(item.getId());
+					System.out.println("abc");
+				}
+			}
 			nhasxRepo.delete(nsx);
 			return true;
 		}

@@ -19,7 +19,7 @@ public class phieuthu {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String maphieuthu;
-	private String idhoadon;
+	private int idhoadon;
 	private long sotienthu;
 	private Date ngaythu;
 	private String nguoithu;
@@ -80,6 +80,7 @@ public class phieuthu {
 		this.id = id;
 		this.maphieuthu = maphieuthu;
 		this.sotienthu = sotienthu;
+		this.idhoadon = idhoadon;
 		this.ngaythu = ngaythu;
 		this.nguoithu = nguoithu;
 		this.hinhthucthu = hinhthucthu;
@@ -89,10 +90,10 @@ public class phieuthu {
 	public phieuthu() {
 		
 	}
-	public String getIdhoadon() {
+	public int getIdhoadon() {
 		return idhoadon;
 	}
-	public void setIdhoadon(String idhoadon) {
+	public void setIdhoadon(int idhoadon) {
 		this.idhoadon = idhoadon;
 	}
 	

@@ -11,14 +11,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.demoSpBoot.model.hoadonnhaphang;
 import com.example.demoSpBoot.model.nhacungcap;
-import com.example.demoSpBoot.model.sanpham;
+import com.example.demoSpBoot.repository.HoadonNHRepository;
 import com.example.demoSpBoot.repository.NhacungcapRepository;
+import com.example.demoSpBoot.repository.PhieuchiRepository;
 
 @Service
 public class NhacungcapService {
 	@Autowired
 	NhacungcapRepository nhaccRepo;
+	@Autowired
+	HoadonNHRepository hoadonNHRepo;
+	@Autowired
+	PhieuchiRepository phieuchiRepo;
 	public List<nhacungcap> findAllSup(){
 		return (List<nhacungcap>) nhaccRepo.findAll();
 	}
@@ -58,6 +64,13 @@ public class NhacungcapService {
 		if (ncc == null) {
 			return false;
 		} else {
+			List<hoadonnhaphang> listhoadonnh = hoadonNHRepo.findBynhacungcap(ncc);
+			if(!listhoadonnh.isEmpty()) {
+				for(hoadonnhaphang item: listhoadonnh) {
+					nhaccRepo.deletePhieuchi(item.getId());
+					hoadonNHRepo.delete(item);
+				}
+			}
 			nhaccRepo.delete(ncc);
 			return true;
 		}

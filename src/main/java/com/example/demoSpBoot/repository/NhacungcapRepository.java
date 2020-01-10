@@ -3,9 +3,12 @@ package com.example.demoSpBoot.repository;
 import java.sql.Date;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.demoSpBoot.model.hoadonbanhang;
@@ -18,4 +21,8 @@ public interface NhacungcapRepository extends JpaRepository<nhacungcap, Integer>
 			countQuery = "SELECT COUNT(*) FROM (SELECT b.* FROM nhacungcap b WHERE b.mancc=:key OR b.tenncc LIKE %:key%) as temp",
 			nativeQuery = true)
 	Page<nhacungcap> findBymanccOrtenncc(Pageable pageable, String key);
+	@Modifying
+	@Transactional
+	@Query( value = "DELETE FROM phieuchi WHERE idhoadon= :id", nativeQuery = true)
+	void deletePhieuchi( int id);
 }
